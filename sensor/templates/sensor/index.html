@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    {% load static %}
+    <title>PADDY - {% block title %}Home{% endblock %}</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+      href="{% static 'sensor/vendor/fontawesome-free/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template-->
+    <link
+      href="{% static 'sensor/css/sb-admin-2.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <link
+      href="{% static 'sensor/css/bootstrap.css' %}"
+      rel="stylesheet"
+    />
+
+    <link
+      href="{% static 'sensor/css/dashboard.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this page -->
+    <link
+      href="{% static 'sensor/vendor/datatables/dataTables.bootstrap4.min.css' %}"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'sensor/css/w3.css' %}" />
+
+    <script src="{% static 'sensor/vendor/jquery/jquery.min.js' %}"></script>
+
+    <style>
+
+        .highcharts-figure .chart-container {
+            width: 270px;
+            height: 200px;
+            /* float: left; */
+      }
+
+        .highcharts-figure,
+        .highcharts-data-table table {
+            width: 240px;
+            margin: 0 auto;
+      }
+
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            /* max-width: 500px;  */
+      }
+
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+      }
+
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+      }
+
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+            padding: 0.5em;
+      }
+
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+      }
+
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+      }
+
+        @media (max-width: 600px) {
+
+          .highcharts-figure,
+          .highcharts-data-table table {
+              width: 100%;
+          }
+
+          .highcharts-figure .chart-container {
+              width: 275px;
+              /*width: 275px;*/
+              float: none;
+              margin: 0 auto;
+          }  
+      }
+
+      .yellowish {
+        background-color: #434c56;
+      }
+      .sidebar .nav-item .nav-link {
+        padding: 8px 15px 8px 15px !important;
+      }
+      .yellow-border {
+        background-color: #434c56;
+        border-right: grey solid 2px;
+      }
+      .d-blue {
+        background-color: #ffffff !important;
+      }
+      .darker-nw {
+        background-color: #ffffff;
+      }
+      .card-cus {
+        box-shadow: 0px 0px 10px 7px rgba(23, 19, 23, 0.59) !important;
+      }
+
+      .div_scroll_content {
+        overflow-y: scroll;
+      }
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .div_scroll_content::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .div_scroll_content {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+
+      .sidenav {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+      }
+
+      /* Style the sidenav links and the dropdown button */
+      .sidenav a,
+      .dropdown-btn {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+      }
+
+      /* On mouse-over */
+      .sidenav a:hover,
+      .dropdown-btn:hover {
+        color: #f1f1f1;
+      }
+
+      /* Main content */
+      .main {
+        margin-left: 200px; /* Same as the width of the sidenav */
+        font-size: 20px; /* Increased text to enable scrolling */
+        padding: 0px 10px;
+      }
+
+      /* Add an active class to the active dropdown button */
+      .active {
+        background-color: green;
+        color: white;
+      }
+
+      /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+      .dropdown-container {
+        display: none;
+        background-color: #262626;
+        padding-left: 8px;
+      }
+
+      /* Optional: Style the caret down icon */
+      .fa-caret-down {
+        float: right;
+        padding-right: 8px;
+      }
+
+      /* Some media queries for responsiveness */
+      @media screen and (max-height: 450px) {
+        .sidenav {
+          padding-top: 15px;
+        }
+        .sidenav a {
+          font-size: 18px;
+        }
+      }
+    </style>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'sensor/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'sensor/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'sensor/vendor/bootstrap/js/translate.js' %}"></script>
+    <script>
+      function load() {
+        var translate = new Translate();
+        var currentLng = "en"; //'mal'//'jap'
+        var attributeName = "data-tag";
+        translate.init(attributeName, currentLng);
+        translate.process();
+      }
+
+      function trans(currentLng) {
+        var translate = new Translate();
+        var attributeName = "data-tag";
+        translate.init(attributeName, currentLng);
+        translate.process();
+      }
+    </script>
+  </head>
+
+  <!-- <body
+    id="page-top"
+    style="
+      background: url('https://wallpaperaccess.com/full/1153698.jpg') center
+        center / cover no-repeat;
+    "
+    onload="load()"
+  > -->
+    <div id="content">
+      {% block content %} {% endblock %}
+    </div>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <div id="result"></div>
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'sensor/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'sensor/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'sensor/js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'sensor/js/demo/datatables-demo.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <!-- <script src="{% static 'sensor/vendor/chart.js/Chart.min.js' %}"></script> -->
+
+    <!-- Page level custom scripts -->
+    <!-- <script src="{% static 'sensor/js/demo/chart-area-demo.js' %}"></script> -->
+    <!-- <script src="{% static 'sensor/js/demo/chart-pie-demo.js' %}"></script> -->
+
+    <script>
+      function openLeftMenu() {
+        document.getElementById("leftMenu").style.display = "block";
+      }
+
+      function closeLeftMenu() {
+        document.getElementById("leftMenu").style.display = "none";
+      }
+
+      function openRightMenu() {
+        document.getElementById("rightMenu").style.display = "block";
+      }
+
+      function closeRightMenu() {
+        document.getElementById("rightMenu").style.display = "none";
+      }
+
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

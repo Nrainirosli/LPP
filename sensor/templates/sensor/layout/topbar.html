@@ -1,0 +1,259 @@
+<!-- Topbar -->
+<style type="text/css">
+    .big{
+        transform: scale(0.9) !important;
+        right:-.15rem !important;
+        margin-top:-0.7rem !important; 
+    }
+    #sidebar72:hover {
+        background: #d8ac05;
+    }
+    #src_id {
+        outline: none;
+        padding-left: 10px;
+        display: none;
+    }
+</style>
+
+<nav class="navbar navbar-expand yellowish navbar-light topbar static-top" style="z-index: 1001;">
+    <!-- Sidebar Toggle (Topbar) -->
+    <button onclick="smallclose()" id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3 text-gray-700">
+        <i class="fa fa-bars"></i>
+    </button>
+    <button class="btn btn-link rounded-circle mr-3 text-gray-700" onclick="closenav()" id="sidebar72">
+        <i class="fa fa-bars"></i>
+    </button>
+    {% load static %}
+    {% if filename %}
+        <img src="{{filename}}" width="45" height="45">
+    {% endif %}
+    {% if header %}
+        <h4 class="ml-3 pt-2" style="color: #293248;font-weight: 800;">{{header}}</h4>
+    {% endif %}
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+        {% if request.get_full_path == "/sYE8kSrGbwM%3D/index" or request.get_full_path == "/sYE8kSrGbwM%3D/mapfeeder" or request.get_full_path == "/sYE8kSrGbwM%3D/map"%}
+        <!-- Nav Item - Alert -->
+        <div style="margin-top: auto;margin-bottom: auto;">
+            <input type="text" id="src_id" style="border-radius: 15px;">
+        </div>
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <!-- <i class="fas fa-bell fa-fw"></i> -->
+                {% comment %} <img src="{% static 'img/icon/bell.png' %}" width="30px" height="30px"> {% endcomment %}
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter big" id="alarm"></span>
+            </a>
+            <!-- Dropdown - Alerts -->
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header d-blue" style="border:1px solid #293248">
+                    Alerts Center
+                </h6>
+                <div class="dropdown-item small" href="#">Feeder Alarm</div>
+                <!-- <a class="dropdown-item d-flex align-items-center" href="#"> -->
+                    <div>
+                        <table id="tableNoti" class="ml-3" style="font-size: 12px;">
+                            <tbody>
+
+                            </tbody>                
+                        </table>
+                    </div>
+                <!-- </a> -->
+                <a class="dropdown-item text-center small text-gray-500" href="#" style="border-top: 1px solid #e3e6f0;">Show more</a>
+                <div class="dropdown-item small" href="#">Street light Alarm</div>
+                 <div>
+                    <table id="tableNoti2" style="font-size: 12px;margin-top: 0px !important;">
+                        <tbody>
+
+                        </tbody>                
+                    </table>
+                </div>
+                {% if request.get_full_path == "/sYE8kSrGbwM%3D/index" %}
+                <a class="dropdown-item text-center small text-gray-500" href="/sYE8kSrGbwM=/map">Show more</a>
+                {% else %}
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show more</a>
+                {% endif %}
+            </div>
+        </li>
+        {% endif %}
+
+        <!-- Nav Item - User Information -->
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-900 big">Hi {{ it.username }}</span>
+                <img src="{% static 'sensor/icon/user.png' %}" width="30px" height="30px">
+            </a>
+            <!-- Dropdown - User Information -->
+            {% comment %} <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+
+                <a class="dropdown-item" href="/menu">
+                    <i class="fas fa-grip-horizontal fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Main Menu
+                </a>
+
+                <a class="dropdown-item" href="/profileuser">
+                    <i class="fas fa-grip-horizontal fa-sm fa-fw mr-2 text-gray-400"></i>
+                    User Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div> {% endcomment %}
+        </li>
+
+    </ul>
+
+</nav>
+<script>
+    function closenav(){
+        var x = document.getElementById("accordionSidebar");
+        console.log(x.style.width)
+        if(x.style.width === ""){
+            document.getElementById("accordionSidebar").style='width:0 !important;transition:.4s';
+            document.getElementById("sbrand").style='display: none !important';
+            document.getElementById("linav").style='display: none !important';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: none !important';
+            }
+            document.getElementById("gateway").style='display: none !important';
+            try {
+                document.getElementById("events").style='display: none !important';
+                document.getElementById("modbusconfig").style.display='none';
+                document.getElementById("organizationconfig").style='display: none !important';
+            } catch (error) {}
+            try {document.getElementById("monitor").style='display: none !important';
+            } catch (error) {}
+            try { 
+                document.getElementById("home").style='display: none !important';
+                document.getElementById("energy").style='display: none !important';
+                document.getElementById("license").style='display: none !important';
+            } catch (error) {}
+
+            document.getElementById("group").style='display: none !important';
+            document.getElementById("dim").style='display: none !important';
+            document.getElementById("location").style='display: none !important';
+            document.getElementById("datatable").style='display: none !important';
+            document.getElementById("user").style='display: none !important';
+            document.getElementById("alarm").style='display: none !important';
+            document.getElementById("feeder").style='display: none !important';
+            document.getElementById("device").style='display: none !important';
+            document.getElementById("settings").style.display='none';
+            document.getElementById("report").style.display='none';
+        }
+        else if(x.style.width === "0px"){
+            document.getElementById("accordionSidebar").style='width: !important;transition:.4s';
+            document.getElementById("sbrand").style='display :  !important';
+            document.getElementById("linav").style='display: !important';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: !important';
+            }
+            document.getElementById("gateway").style='display: !important';
+            try {
+                document.getElementById("events").style='display: !important';
+                document.getElementById("modbusconfig").style.display='block';
+                document.getElementById("organizationconfig").style='display: !important';
+            } catch (error) {
+                
+            }
+            try { document.getElementById("monitor").style='display: !important';
+            } catch (error) {}
+            try { 
+                document.getElementById("home").style='display: !important';
+                document.getElementById("energy").style='display: !important';
+                document.getElementById("license").style='display: !important';
+            }  catch (error) {}
+            document.getElementById("group").style='display: !important';
+            document.getElementById("dim").style='display: !important';
+            document.getElementById("location").style='display: !important';
+            document.getElementById("datatable").style='display: !important';
+            document.getElementById("user").style='display: !important';
+            document.getElementById("alarm").style='display: !important';
+            document.getElementById("feeder").style='display: !important';
+            document.getElementById("device").style='display: !important';
+            document.getElementById("settings").style.display='block';
+            document.getElementById("report").style='display: !important';
+        }
+    }
+
+    function smallclose(){
+        var v = $(".sidebar").width();
+        // alert(v);
+        if(v == 104){
+            // alert('104');
+            document.getElementById('accordionSidebar').style='width: 0!important;transition:.4s';
+            document.getElementById("sbrand").style='display: none !important';
+            document.getElementById("linav").style='display: none !important';
+            document.getElementById("gateway").style='display: none !important';
+            try {
+                document.getElementById("events").style='display: none !important';
+                document.getElementById("modbusconfig").style.display='none';
+                document.getElementById("organizationconfig").style='display: none !important';
+            } catch (error) {
+                
+            }
+            try {
+                document.getElementById("monitor").style='display: none !important';
+            } catch (error) {}
+            document.getElementById("group").style='display: none !important';
+            document.getElementById("dim").style='display: none !important';
+            document.getElementById("location").style='display: none !important';
+            document.getElementById("datatable").style='display: none !important';
+            document.getElementById("user").style='display: none !important';
+            document.getElementById("feeder").style='display: none !important';
+            document.getElementById("device").style='display: none !important';
+            document.getElementById("settings").style.display='none';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: none !important';
+            }
+            document.getElementById("navigation").style.display=' none !important';
+            document.getElementById("report").style='display: none !important';
+        }
+        else{
+            // alert('0');
+            document.getElementById('accordionSidebar').style='width: 6.5rem!important;overflow:initial;transition:.4s';
+            document.getElementById("sbrand").style='display:flex !important';
+            document.getElementById("linav").style='display:block !important';
+            document.getElementById("gateway").style='display: block !important';
+            try {
+                document.getElementById("events").style='display:block !important';
+                document.getElementById("modbusconfig").style.display='block';
+                document.getElementById("organizationconfig").style='display: block !important';
+            } catch (error) {
+                
+            }
+            try {
+                document.getElementById("monitor").style='display: block !important';
+            } catch (error) {}
+            document.getElementById("group").style='display:block !important';
+            document.getElementById("dim").style='display:block !important';
+            document.getElementById("location").style='display:block !important';
+            document.getElementById("datatable").style='display:block !important';
+            document.getElementById("user").style='display:block !important';
+            document.getElementById("feeder").style='display:block !important';
+            document.getElementById("device").style='display:block !important';
+            document.getElementById("settings").style.display='block';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: block !important';
+            }
+            document.getElementById("navigation").style.display='block';
+            document.getElementById("report").style.display='block';
+        }
+    }
+
+</script>
+<style>
+    /* For mobile phones: */
+    @media only screen and (max-width: 767px) {
+        #sidebar72, #sbrand,#linav,#group,#dim,#location,#datatable,#user,#feeder,#device,#events,#gateway,#settings,#home,#linav2,#navigation,#modbusconfig,#monitor,#report,#energy,#license,#alarm,#organizationconfig{
+            display:none;
+        }
+        #accordionSidebar{
+            width: 0 ;
+        }
+    }
+</style>

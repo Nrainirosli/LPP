@@ -1,0 +1,660 @@
+{% extends 'sensor/index.html' %}
+{% block title %} DRYER {{dryer_id}}{% endblock %}
+{% block content %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif
+}
+
+.column {
+        float: left;
+        width: 50%;
+        padding: 25px;
+        height: auto; 
+        padding-top: 10px;
+}
+
+nav {
+    min-height: 70px
+}
+
+nav .navbar-brand .logo {
+    padding: 10px 15px;
+    border-radius: 8px
+}
+
+nav .navbar-brand .logo .h2 {
+    margin: 0
+}
+
+nav .navbar-brand .h4 {
+    margin-bottom: 0px;
+    font-weight: 900
+}
+
+nav .navbar-brand .fs-6 {
+    font-size: 0.88rem !important
+}
+
+nav ul li {
+    padding: 0 20px
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #333
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #4e2296
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: #451296
+}
+
+nav ul li a .cart {
+    padding: 4px 6px;
+    border-radius: 6px;
+    position: relative;
+    display: inline
+}
+
+nav ul li a .cart::after {
+    position: absolute;
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ff5252;
+    top: -1px
+}
+
+.navbar-toggler:focus {
+    box-shadow: none
+}
+
+#sidebar {
+    padding: 15px 0px 15px 0px;
+    border-radius: 10px
+}
+
+#sidebar .h4 {
+    font-weight: 500;
+    padding-left: 15px
+}
+
+#sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0rem
+}
+
+#sidebar ul li {
+    padding: 10px 0;
+    display: block;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-left: 5px solid transparent
+}
+
+#sidebar ul li.active {
+    border-left: 5px solid #ff5252;
+    background-color: #44007c
+}
+
+#sidebar ul li a {
+    display: block
+}
+
+#sidebar ul li a .fas,
+#sidebar ul li a .far {
+    color: #ddd
+}
+
+#sidebar ul li a .link {
+    color: #fff;
+    font-weight: 500
+}
+
+#sidebar ul li a .link-desc {
+    font-size: 0.8rem;
+    color: #ddd
+}
+
+#main-content {
+    padding: 15px;
+    border-radius: 15px;
+    height:2430px;
+    padding-bottom: 10px;
+}
+
+#main-content .h5,
+#main-content .text-uppercase {
+    font-weight: 600;
+    margin-bottom: 0
+}
+
+#main-content .h5+div {
+    font-size: 0.9rem
+}
+
+#main-content .box {
+    padding: 8px;
+    border-radius: 6px;
+    width: 230px;
+    height: 50px;
+    flex: 1;
+}
+
+#main-content .box img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain
+}
+
+#main-content .box .tag {
+    font-size: 0.9rem;
+    color: #000;
+    font-weight: 500
+}
+
+#main-content .box .number {
+    font-size: 1.5rem;
+    font-weight: 600
+}
+
+.order {
+    padding: 9px 18px;
+    min-height: 35px
+}
+
+.order .order-summary {
+    height: 100%
+}
+
+.order .blue-label {
+    background-color: #aeaeeb;
+    color: #0046dd;
+    font-size: 0.9rem;
+    padding: 0px 3px
+}
+
+.order .green-label {
+    background-color: #a8e9d0;
+    color: #008357;
+    font-size: 0.9rem;
+    padding: 0px 3px
+}
+
+.order .fs-8 {
+    font-size: 0.85rem
+}
+
+.order .rating img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain
+}
+
+.order .rating .fas,
+.order .rating .far {
+    font-size: 0.9rem
+}
+
+.order .rating .fas {
+    color: #daa520
+}
+
+.order .status {
+    font-weight: 600
+}
+
+.order .btn.btn-primary {
+    background-color: #fff;
+    color: #225a96;
+    border: 1px solid #225a96
+}
+
+.order .btn.btn-primary:hover {
+    background-color: #225a96;
+    color: #fff
+}
+
+.order .progressbar-track {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative
+}
+
+.order .progressbar-track .progressbar {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 0rem
+}
+
+.order .progressbar-track .progressbar li {
+    font-size: 1.5rem;
+    border: 1px solid #333;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background-color: #dddddd;
+    z-index: 100;
+    position: relative
+}
+
+.order .progressbar-track .progressbar li.green {
+    border: 1px solid #007965;
+    background-color: #d5e6e2
+}
+
+.order .progressbar-track .progressbar li::after {
+    position: absolute;
+    font-size: 0.9rem;
+    top: 50px;
+    left: 0px
+}
+
+#tracker {
+    position: absolute;
+    border-top: 1px solid #bbb;
+    width: 100%;
+    top: 25px
+}
+
+.bg-purple {
+    background-color: #55009b
+}
+
+.bg-light {
+    background-color: #f0ecec !important
+}
+
+.green {
+    color: #007965 !important
+}
+
+@media(max-width: 1366px) {
+    nav ul li {
+        padding: 0 10px
+    }
+}
+
+@media(max-width: 500px) {
+    .order .progressbar-track .progressbar li {
+        font-size: 1rem
+    }
+
+    .order .progressbar-track .progressbar li::after {
+        font-size: 0.8rem;
+        top: 35px
+    }
+
+    #tracker {
+        top: 20px
+    }
+}
+
+@media(max-width: 1366px) {
+    #main-content {
+        padding: 5px
+    }
+
+    .order {
+        padding: 20px
+    }
+
+    #step-4::after {
+        left: -5px
+    }
+    .bg-light {
+    background-color: #f0ecec !important;
+    width : 100px
+    }
+    .order {
+        padding: 5px 18px;
+        min-height: 25px;
+        min-width: 250px;
+        width : 280px
+    }
+}
+
+/* @media(max-width: 395px) {
+    .order .progressbar-track .progressbar li {
+        font-size: 0.8rem
+    }
+
+    .order .progressbar-track .progressbar li::after {
+        font-size: 0.7rem;
+        top: 35px
+    }
+
+    #tracker {
+        top: 15px
+    }
+
+    .order .btn.btn-primary {
+        font-size: 0.85rem
+    }
+} */
+
+@media(max-width: 980px) {
+    #main-content {
+        padding: 15px
+    }
+
+    .order {
+        padding: 3px
+    }
+}
+</style>
+<!--OSM-->
+{% load static %}
+<!--Map-->
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Topbar -->
+            <!-- End of Topbar -->
+            <!-- Begin Page Content -->
+            <div class="container-fluid mt-2">
+                <div class="row">
+                    <div class="col-lg-12 my-lg-0 my-1">
+                        <div id="main-content" class="bg-white border">
+                            <div class="d-flex flex-column">
+                                <!-- <div class="h5">Hello {{user.username}},</div> -->
+                                <!-- <div>Logged in as: {{user.email}}</div> -->
+                            </div>
+                            <div class="d-flex my-2 flex-wrap">
+                                <div class="box my-2 bg-light mr-3"> 
+                                    <!-- <img src="https://cdn-icons-png.flaticon.com/512/2540/2540201.png" alt=""> -->
+                                    <div class="d-flex align-items-center mt-0">
+                                        <div class="tag">TOTAL SENSOR : </div>
+                                        <div class="ms-auto number">{{sens.count}}</div>
+                                    </div>
+                                </div>
+                                <div class="box my-2 bg-light"> 
+                                    <!-- <img src="https://cdn1.iconfinder.com/data/icons/plywood-production-1/100/veneer_dryer_machine_production_industry_storage_sawmill-512.png" alt=""> -->
+                                    <div class="d-flex align-items-center mt-0">
+                                        <div class="tag">TOTAL DRYER : </div>
+                                        <div class="ms-auto number"> {{dryer.count}}</div>
+                                    </div>
+                                </div>
+                                <div class="box my-2 bg-light ml-3"> 
+                                    <!-- <img src="https://icon-library.com/images/conveyor-belt-icon/conveyor-belt-icon-16.jpg" alt=""> -->
+                                    <div class="d-flex align-items-center mt-0">
+                                        <div class="tag">TOTAL ELEVATOR : </div>
+                                        <div class="ms-auto number"> {{elevator.count}}</div>
+                                    </div>
+                                </div>
+                                <div class="box my-2 bg-light ml-3"> 
+                                    <!-- <img src="https://icon-library.com/images/conveyor-belt-icon/conveyor-belt-icon-16.jpg" alt=""> -->
+                                    <div class="d-flex align-items-center mt-0">
+                                        <div class="tag">TOTAL CCTV : </div>
+                                        <div class="ms-auto number"> {{cctv.count}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-uppercase">Today status</div>
+                            <div>{{datenow}}</div>
+                                <hr>                               
+                            <div class="column mt-2 mr-3" style="background-color:#c6ce9d; width: 61%; border-radius: 15px;">
+                                <div class="text-uppercase" style="font-size: 18px; color: #fff;">dryer status</div>
+                                <hr>
+                                    <tr>
+                                        <center>
+                                            <td>
+                                                &nbsp;&nbsp;
+                                                <div class="order my-2 bg-light ml-2"> 
+                                                    <div class="row">
+                                                        <div class="col-lg-6", style="display: inline-block;">
+                                                            <div class="d-flex flex-column justify-content-between order-summary">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="text-uppercase">Dryer</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4", style="display: inline-block;">
+                                                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                                <div class="status">STATUS</div>
+                                                                {% if x.flag == 0 %}
+                                                                <div id="dryer_{{x.name}}" style="font-weight: bold; font-size: 15px; color: red"></div>
+                                                                {% else %}
+                                                                <div id="dryer_{{x.name}}" style="font-weight: bold; font-size: 15px; color: green"></div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>  
+                                                        <!-- <div class="col-lg-6", style="display: inline-block;">
+                                                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="text-uppercase">BATCH</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6", style="display: inline-block;">
+                                                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="text-uppercase">DURATION TIME</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6", style="display: inline-block;">
+                                                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="text-uppercase">ESTIMATED TIME</div>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                        <!-- <div class="col-lg-5">
+                                                            <div class="d-flex flex-column justify-content-between order-summary">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="text-uppercase">Dryer</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-5">
+                                                            <div class="d-flex flex-column justify-content-between order-summary">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="text-uppercase">Dryer</div>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </center>                                                                                                
+                                <center class="w-100">
+                                    {% for x in dryer %}
+                                    <td>
+                                        <div class="order my-2 bg-light ml-2">  
+                                            <div class="row">
+                                                <div class="col-lg-4", style="display: inline-block;">
+                                                    <div class="d-flex flex-column justify-content-between order-summary">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="text-uppercase">{{ x.name }}</div>
+                                                            <!-- <div class="text-uppercase">Dryer {{ x.name }}</div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3", style="display: inline-block;">
+                                                    <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                        <div class="d-flex align-items-center"></div>
+                                                        <!-- <div class="status">Status:</div> -->
+                                                        {% if x.flag == 0 %}
+                                                        <div id="dryer_{{x.name}}" style="font-weight: bold; font-size: 15px; color: red"></div>
+                                                        {% else %}
+                                                        <div id="dryer_{{x.name}}" style="font-weight: bold; font-size: 15px; color: green"></div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4", style="display: inline-block;">
+                                                    <div class="d-flex flex-column justify-content-between order-summary">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="text-uppercase">{{ batch }}</div>
+                                                            <!-- <div class="text-uppercase">Dryer {{ x.name }}</div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4", style="display: inline-block;">
+                                                    <div class="d-flex flex-column justify-content-between order-summary">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="text-uppercase">{{ time }}</div>
+                                                            <!-- <div class="text-uppercase">Dryer {{ x.name }}</div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4", style="display: inline-block;">
+                                                    <div class="d-flex flex-column justify-content-between order-summary">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="text-uppercase">{{ batch }}</div>
+                                                            <!-- <div class="text-uppercase">Dryer {{ x.name }}</div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4", style="display: inline-block;">
+                                                    <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="text-uppercase">{{ data.total }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {% if forloop.counter|divisibleby:2 %}
+                                </tr>
+                                {% endif %}
+                                {% endfor%}
+                            </center>
+                            </div>
+                            <div class="column mt-2" style="background-color:#c6ce9d;width: 31%;border-radius: 15px;">
+                                <div class="text-uppercase" style="font-size: 18px; color: #fff;">Conveyor status</div>
+                                <hr>
+                                <center class="w-100">
+                                    <tr>
+                                        {% for x in elevator %}
+                                        <td>
+                                            <div class="order my-2 bg-light">
+                                                <div class="row">
+                                                    <div class="col-lg-5", style="display: inline-block;">
+                                                        <div class="d-flex flex-column justify-content-between order-summary">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="text-uppercase">Elevator {{ x.name }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5", style="display: inline-block;">
+                                                        <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                                            <div class="status">Status:</div>
+                                                            {% if x.flag == 0 %}
+                                                            <div id="elevator_{{x.name}}" style="font-weight: bold; font-size: 15px; color: red"></div>
+                                                            {% else %}
+                                                            <div id="elevator_{{x.name}}" style="font-weight: bold; font-size: 15px; color: green"></div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {% if forloop.counter|divisibleby:1 %}
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor%}
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- End of Main Content -->
+        </div>
+
+        <!-- Footer -->
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<script>
+
+    let headersList = {};
+    fetch(
+        "/api/dryer_status",
+        {
+            method: "GET",
+            headers: headersList,
+        }
+    )
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        for (var i = 0; i < data.length; i++){
+            console.log(data)
+            var status = data[i].Status;
+            document.getElementById("dryer_"+data[i].Dryer).innerHTML = data[i].Status;
+        }
+    });
+
+    let headersList1 = {};
+        fetch(
+            "/api/elevator_status",
+            {
+                method: "GET",
+                headers: headersList1,
+            }
+        )
+    	.then(function (response) {
+    		return response.json();
+    	})
+    	.then(function (data) {
+        for (var i = 0; i < data.length; i++){
+            console.log(data)
+            var status = data[i].Status;
+            document.getElementById("elevator_"+data[i].Elevator).innerHTML = data[i].Status;
+        }
+    });
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                var cookies = document.cookie.split(";");
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === name + "=") {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie("csrftoken");
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+        }
+</script>
+{% endblock %}

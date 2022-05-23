@@ -1,0 +1,113 @@
+@media screen and (min-width: 768px) and (max-width: 1440px) {
+    #donutchart {
+        width: 280px;
+        height: 200px;
+    }
+}
+
+@media screen and (min-width: 1441px) and (max-width: 1920px) {
+    #donutchart {
+        width: 440px;
+        height: 230px;
+    }
+}
+
+@media screen and (max-height: 1080px) {
+    #map {
+        height: 530px;
+    }
+}
+
+@media screen and (max-height: 768px) {
+    #map {
+        height: 480px;
+    }
+}
+
+.darker-nw {
+    background-color: #ffffff;
+    border-color: grey;
+}
+
+.l-black {
+    background-color: #37333a;
+}
+
+.anychart-credits {
+    display: none;
+}
+
+#top_x_div svg>g>rect {
+    fill: #37333a !important;
+}
+
+.darker-nw {
+    background-color: #29262F;
+    border-color: grey;
+}
+
+.anychart-credits {
+    display: none;
+}
+
+#div-map {
+    cursor: pointer;
+}
+
+.dataTables_filter,.dataTables_info,.dataTables_length {
+    color: white;
+}
+.table > thead > tr > td {
+    border-top: none;
+}
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+.table {
+    font-size: 14px;
+}
+select:disabled {
+    background-color: #202738 !important;
+}
+.form-control {
+    color: gray !important;
+    background-color: #ffffff !important;
+}
+.page-item.active .page-link {
+    color: #fff !important;
+    background-color: #53aeef !important;
+    border-color: #53aeef !important;
+}
+.page-link:hover {
+    color: #fff !important;
+    background-color: #53aeef !important;
+    border-color: #53aeef !important;
+}
+.page-link {
+    color: #858796 !important;
+    background-color: #384563 !important;
+    border: 1px solid #435277 !important;
+}
+.page-item.disabled .page-link {
+    background-color: #384563 !important;
+    border-color: #435277 !important;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: white;
+    background-color: #37333a !important;
+    border: 1px solid #37333a !important;
+    border-bottom-color: transparent;
+}
+.nav-tabs>li>a{
+    color: white !important;
+    margin-right: 1px;
+}
+.nav-tabs>li>a:focus, .nav-tabs>li>a:hover{
+    background-color: #2b282d !important;
+    border: 1px solid #2b282d !important;
+}
+.nav-tabs {
+    background-color: #302c33 !important;
+    border-bottom-color: #302c33 !important;
+}

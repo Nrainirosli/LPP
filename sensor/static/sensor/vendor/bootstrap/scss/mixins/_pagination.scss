@@ -1,0 +1,41 @@
+// Pagination
+
+@mixin pagination-size($padding-y, $padding-x, $font-size, $line-height, $border-radius) {
+  .page-link {
+    padding: $padding-y $padding-x;
+    @include font-size($font-size);
+    line-height: $line-height;
+  }
+
+  .page-item {
+    &:first-child {
+      .page-link {
+        @include border-left-radius($border-radius);
+      }
+    }
+    &:last-child {
+<<<<<<< HEAD
+=======
+// Pagination
+
+@mixin pagination-size($padding-y, $padding-x, $font-size, $line-height, $border-radius) {
+  .page-link {
+    padding: $padding-y $padding-x;
+    @include font-size($font-size);
+    line-height: $line-height;
+  }
+
+  .page-item {
+    &:first-child {
+      .page-link {
+        @include border-left-radius($border-radius);
+      }
+    }
+    &:last-child {
+>>>>>>> 21d539137225cbab45148f8cc3548acb295fd524
+      .page-link {
+        @include border-right-radius($border-radius);
+      }
+    }
+  }
+}

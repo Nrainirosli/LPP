@@ -1,0 +1,190 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Sensor{% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'sensor/css/chart.css' %}">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<div id="wrapper">
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid h-100 pt-4 white">
+
+                <div class="row ml-2 pl-0 mb-4">
+                    <div class="col-lg-12 pl-0">
+                        <div class="card-body shadow mr-2 mb-4">
+                            <h4 class="mb-4 text-black pl-3">
+                                Conveyor Current
+                                <div>{{datenow}}</div>
+                                <span class="float-right pr-3">
+                                    <a data-toggle="tooltip" title="Create user" href="/currentlimit" class="btn btn-info"
+                                        style="border-color: black;color: black;cursor: pointer;"><i class="fas fa-plus"></i>&nbsp
+                                        Add Current Limit</a>
+                                </span>
+                            </h4>
+                            <!-- <h2 class="ml-2 text-black">Conveyor Current</h2> -->
+                            <div class="col-lg-12 pl-4">
+                                <center>
+                                    <tr>
+                                        {% for e in elevator %}
+                                        <td>
+                                            <div class="ml-1 mb-1 sm-box ">
+                                                <span class="text-black">Elevator {{ e.elevator_id }}</span>
+                                                <figure class="highcharts-figure">
+                                                    <div id="container-current-{{ e.elevator_id }}"
+                                                        class="chart-container"></div>
+                                                </figure>
+                                            </div>
+                                        </td>
+                                        {% if forloop.counter|divisibleby:5 %}
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor%}
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function createchartcurrent(id) {
+            var gaugeOptions = {
+                chart: {
+                    type: 'solidgauge'
+                },
+
+                title: null,
+
+                pane: {
+                    center: ['50%', '85%'],
+                    size: '140%',
+                    startAngle: -90,
+                    endAngle: 90,
+                    background: {
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                        innerRadius: '60%',
+                        outerRadius: '100%',
+                        shape: 'arc'
+                    }
+                },
+
+                exporting: {
+                    enabled: false
+                },
+
+                tooltip: {
+                    enabled: false
+                },
+
+                // the value axis
+                yAxis: {
+                    stops: [
+                        [0.1, '#55BF3B'], // green
+                        [0.5, '#DDDF0D'], // yellow
+                        [0.9, '#DF5353'] // red
+                    ],
+                    lineWidth: 0,
+                    tickWidth: 0,
+                    minorTickInterval: null,
+                    tickAmount: 2,
+                    title: {
+                        y: -70
+                    },
+                    labels: {
+                        y: 16
+                    }
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            y: 5,
+                            borderWidth: 0,
+                            useHTML: true
+                        }
+                    }
+                }
+            };
+
+            var chartCurrent = Highcharts.chart('container-current-' + id.toString(), Highcharts.merge(gaugeOptions, {
+                yAxis: {
+                    min: 0,
+                    max: 100,
+                    title: {
+                        text: 'Current'
+                    }
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'Current',
+                    data: [0],
+                    dataLabels: {
+                        format:
+                            '<div style="text-align:center">' +
+                            '<span style="font-size:25px">{y}</span><br/>' +
+                            '<span style="font-size:12px;opacity:0.4">E</span>' +
+                            '</div>'
+                    },
+                    tooltip: {
+                        valueSuffix: 'A'
+                    }
+                }]
+
+            }));
+
+            return chartCurrent
+        }
+
+
+        setInterval(function () {
+            var point,
+                newVal,
+                inc;
+
+            let headersList = {};
+            fetch(
+                "/api/elevator/{{station_id}}",
+                {
+                    method: "GET",
+                    headers: headersList,
+                }
+            )
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    for (var i in data) {
+
+                        if (createchartcurrent(data[i].elevator_id)) {
+                            point = createchartcurrent(data[i].elevator_id).series[0].points[0];
+                            var current = parseFloat(data[i].current.toString().substring(0,5))
+                            point.update(current);
+                        }
+                    }
+                });
+        }, 10000);
+    </script>
+    {% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'sensor/index.html' %}
+{% block title %} LOG USER {% endblock %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'sensor/css/black.css' %}"/>
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid fluid py-4 darker-nw h-100">
+          <!-- Page Heading -->
+              <div class="row">
+                <div class="col-lg-1 col-lg-1" style="padding-left: 25px;" >
+                  <input type="submit" name="" class="btn btn-primary" onclick="javascript:history.go(-1)" value="Back">
+                </div>
+                <div class="col-lg-11 col-lg-6 text-center">
+                  <h1 class="h3 mb-4 text-white text-center">USER MANAGEMENT</h1>
+                </div>               
+              </div>
+              <div class="col-xl-12 col-lg-12 col-lg-7">
+                <div class="card-body d-blue rounded card-cus">
+                  <h4 class="pb-4 text-black">LOG USER</h4>
+                  <div class="col-lg-12" style="width: 100%;">
+                    <div class="table-responsive">
+                        <table id="tbd" class="table text-black" width="100%" border="0">
+                          <thead>
+                            <tr>
+                              <td>ID</td>
+                              <td>Date</td>
+                              <td>Username</td>
+                              <td>Role</td>
+                            </tr>
+                          </thead>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</div>
+
+<script src="{% static 'sensor/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'sensor/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<link href="{% static 'sensor/css/dataTables.bootstrap4.min.css' %} " rel="stylesheet">
+
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+
+<script type="text/javascript">
+  var count = 0;
+  mytable = $('#tbd').DataTable({
+      paging: true,
+      columnDefs: [ {
+          className: 'control',
+          orderable: false,
+          targets:   0
+      }],
+      order: [ 1, 'desc' ],
+      "ajax"     : {
+          url: '/logUserJson',
+          dataSrc : function(json){
+            console.log('loguserjson');
+            console.log(json);
+            return json; //return json.data;
+          }
+     },
+     "columns"     :     [  
+          // {     "data"     :     "d"}, 
+          {     "data"     :     "userid",
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                  if(oData.userid){
+                    $(nTd).html(""+(count=count+1)+"");
+                  }
+                },"defaultContent": ""
+          },
+          {     "data"     :     "datecreated", "defaultContent": "",},   
+          {     "data"     :     "username", "defaultContent": "",},  
+          {     "data"     :     "role",
+                "fnCreatedCell": function(nTd, sData, oData, iRow, iCol){
+                  if(oData.role ==1){
+                    $(nTd).html("Admin");
+                  }else if(oData.role ==2){
+                    $(nTd).html("Operator");
+                  }else if(oData.role ==3){
+                    $(nTd).html("Quality Control(QC)");
+                  }
+                },
+                "defaultContent": "",
+          }
+     ] 
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'sensor/index.html' %}
+{% block title %} USER MANAGEMENT {% endblock %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'sensor/css/black.css' %}">
+<link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">
+<link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+<!-- Custom styles for this page -->
+<link href="{% static 'sensor/css/dataTables.bootstrap4.min.css' %} " rel="stylesheet">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid py-4 darker-nw h-100">
+
+                <!-- Page Heading -->
+                <h4 class="mb-4 text-black pl-3">
+                    USER MANAGEMENT
+                    {% if role == 1 %}
+                    <span class="float-right pr-3">
+                        <a data-toggle="tooltip" title="Create user" href="/adduser" class="btn"
+                            style="border-color: black;color: black;cursor: pointer;"><i class="fas fa-plus"></i>&nbsp
+                            Create</a>
+                    </span>
+                    {% endif %}
+                </h4>
+                <div class="col-xl-12">
+                    <!-- <div class="card shadow mb-4">
+                      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">User list</h6>
+                      </div>
+                    </div> -->
+                    <div class="card-body d-blue rounded card-cus">
+                        <!-- Nested Row within Card Body -->
+                        <div class="col-lg-12">
+                            <h4 class="pb-4 text-black"><b>ALL USER</b></h4>
+                            <div class="table-responsive">
+                                <table class="table text-black" id="tbluser" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>Name</td>
+                                            <td>Role</td>
+                                            <!-- <td>Action</td> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for x in user %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td><a href="#" data-toggle="modal" data-target="#modal-{{ x.id }}">
+                                                    {{ x.username }}</a></td>
+                                            <td>
+                                                {% if x.role.id == 1  %}
+                                                Admin
+                                                {% elif x.role.id == 2 %}
+                                                Operator
+                                                {% elif x.role.id == 3 %}
+                                                Quality Control(QC)
+                                                {% endif %}
+                                            </td>
+                                            <!-- <td>
+                                                {% if x.username == username or role == 1 %}
+                                                <a style="text-decoration: none;" href="/updateUser/{{ x.id }}">
+                                                    <button class="btn btn-primary" type="button"><i
+                                                            class="fas fa-cog"></i></button>
+                                                </a>
+                                                <a style="text-decoration: none;"
+                                                onclick="return confirm('Delete user?')"
+                                                href='/deleteUser/{{ x.id }}'>
+                                                <button title="Delete user" class="btn btn-danger"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                                </a>
+                                                {% else %}
+                                                Not accessable
+                                                {% endif %}
+                                            </td> -->
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% for x in user %}
+                <div class="modal fades text-left" id="modal-{{ x.id }}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">USER INFO</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <label class="col-sm-3">Username</label>
+                                    <label class="col-sm-9">: {{ x.username }}</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-3">Email</label>
+                                    <label class="col-sm-9">: {{ x.email }}</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-3">Role</label>
+                                    <label class="col-sm-9">:
+                                    {% if x.role == 1 %}
+                                    Admin
+                                    {% elif x.role == 2 %}
+                                    Operator
+                                    {% elif x.role == 3 %}
+                                    Quality Control(QC)
+                                    {% endif %}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tbluser').DataTable({
+            "paging": true,
+            "scrollX": true,
+            // "ordering": true,
+            "order": [[0, "asc"]],
+            "info": false,
+            // "searching": false,
+            "pageLength": 10,
+            "language": {
+                "paginate": {
+                    "previous": "<i class='fa fa-angle-left' style='padding:3px'></i>",
+                    "next": "<i class='fa fa-angle-right' style='padding:3px'></i>"
+                }
+            },
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
+            // responsive: true
+        });
+        // $('#tbluser_filter').css("visibility","hidden");
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    document.getElementById('user').classList.add('active');
+
+</script>
+{% endblock %}

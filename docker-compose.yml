@@ -1,0 +1,85 @@
+version: "3"
+services:
+
+  db:
+        image: mariadb:latest
+        ports:
+            - 3306
+        volumes:
+<<<<<<< HEAD
+=======
+            - /root/data:version: "3"
+services:
+
+  db:
+        image: mariadb:latest
+        ports:
+            - 3306
+        volumes:
+>>>>>>> 21d539137225cbab45148f8cc3548acb295fd524
+            - /root/data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            TZ: Asia/Kuala_Lumpur
+        networks:
+            - default
+        container_name: mariadb
+        restart: always
+        logging:
+          options:
+            max-size: 10m   
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+          MYSQL_USERNAME: root
+          MYSQL_ROOT_PASSWORD: password
+          PMA_HOST: db
+        ports:
+           - "8082:80"
+        volumes:
+            - .uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+        networks:
+            - default
+        container_name: phpmyadmin
+        restart: always
+        logging:
+          options:
+            max-size: 10m
+
+      mongodb:
+      image : mongo:4
+      container_name: mongodb
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: 1q2w3e4r5t
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ./mongodb_data:/data/db
+        - ./mongodb_config:/data/configdb
+      ports:
+        -27017:27017
+      restart: unless-stopped
+      networks:
+        -default
+
+
+    app:
+        build: .
+        command: python manage.py runserver 0.0.0.0:8001 --insecure
+        volumes:
+            - .:/code
+      #ports:
+       # - "8001:8001"
+        networks:
+            #- web
+            - default
+        container_name: paddy_fe
+        restart: always
+        logging:
+          options:
+            max-size: 10m
+
+                
+networks:
+   default:

@@ -1,0 +1,90 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Sampling Data{% endblock %}
+{% block content %}
+
+<div id="wrapper">
+  <!-- Sidebar -->
+  {% include 'sensor/layout/navbar.html' %}
+  <!-- End of Sidebar -->
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid">
+        {% comment %} <div class="container-fluid h-100 pt-4 darker-nw"> {% endcomment %}
+          <!-- Content Row -->
+          <div class="card-body d-blue rounded card-cus mt-4">
+            <h4 class="pb-4 text-black">Sampling Data <span style="cursor: pointer; float: right; font-size: 1.5em"></span>
+            </h4>
+        
+            <form class="form-horizontal" method="POST" action="/submitsampling">
+              {% csrf_token %}   
+              <div class="form-group">
+                <h4 class=" text-black">
+                    <div class=" mt-4 text-black" style="font-size: 15px;">Choose Dryer</div>
+                    <span style="cursor: pointer; float: right; font-size: 1.5em;"></span>
+                </h4>
+                <select class="form-control" required name="dryer_id" id="dryer_id" style="box-sizing:inherit;">
+                    <option><div class=" mt-4 text-black" style="font-size: 15px;" data-tag='Select'></div>
+                    </option>
+                    {% for d in dryer %}
+                    <!-- {{k.product_no}} -->
+                    <option value="{{ d.dryer_id }}" >{{ d.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <h4 class=" text-black">
+                  <div class=" mt-4 text-black" style="font-size: 15px;">Choose Batch</div>
+                  <span style="cursor: pointer; float: right; font-size: 1.5em;"></span>
+              </h4>
+              <select class="form-control" required name="dryer_id" id="dryer_id" style="box-sizing:inherit;">
+                  <option><div class=" mt-4 text-black" style="font-size: 15px;" data-tag='Select'></div>
+                  </option>
+                  {% for d in dryer %}
+                  <!-- {{k.product_no}} -->
+                  <option value="{{ d.dryer_id }}" >{{ d.name }}</option>
+                  {% endfor %}
+              </select>
+
+                <div class=" mt-4 text-black" style="font-size: 15px;">
+                  <label class="control-label col-sm-2" for="name">Sample Data:</label>
+                    <input
+                      type="varchar"
+                      class="form-control"
+                      name="sampling"
+                      id="sampling"
+                      placeholder="Enter Sampling Data"
+                    />
+                </div>
+              </div>
+
+              <!-- Submit Button-->
+              <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                  <button type="submit" id="submit">Submit</button>
+                </div>
+              </div>
+            </form>
+            <!-- <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th scope="col">Dryer</th>
+                  <th scope="col">Batch</th>
+                  <th scope="col">Sample data</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

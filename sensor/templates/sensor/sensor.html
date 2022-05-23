@@ -1,0 +1,383 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Sensor{% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'sensor/css/chart.css' %}">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<div id="wrapper">
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+  
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+<div class="container-fluid h-100 pt-4 white">
+    
+    <div class="row ml-2 pl-0 mb-4">
+        <div class="col-lg-12 pl-0">
+            <div class="card-body shadow mr-2 mb-4">
+                <h2 class="ml-2 text-black"><b>Dryer Info</b></h2>
+                <div class="col-lg-12 pl-4">
+                    <center> 
+                        <tr>
+                            {% for x in sens %}
+                            <td>
+                                <center class="ml-1 mb-1 sm-box2 shadow">
+                                    <span class="text-black">{{ x.name }}</span>
+                                        <figure class="highcharts-figure">
+                                            {% if x.sensor_type == 1 %}
+                                            <div id="container-speed-{{ x.sensor_id }}" class="chart-container"></div>
+                                            <div id="container-rpm-{{ x.sensor_id }}" class="chart-container"></div>
+                                            <div id="container-dist-{{ x.sensor_id }}" class="chart-container" hidden></div>
+                                            {% elif x.sensor_type == 2 %}
+                                            <div id="container-rpm-{{ x.sensor_id }}" class="chart-container" hidden></div>
+                                            <div id="container-speed-{{ x.sensor_id }}" class="chart-container" hidden></div>
+                                            <div id="container-dist-{{ x.sensor_id }}" class="chart-container" ></div>
+                                            {% else %}
+                                            <div id="container-rpm-{{ x.sensor_id }}" class="chart-container" hidden></div>
+                                            <div id="container-speed-{{ x.sensor_id }}" class="chart-container" ></div>
+                                            <div id="container-dist-{{ x.sensor_id }}" class="chart-container" hidden></div>
+                                            {% endif %}
+                                        </figure>
+                                    </center>
+                            </td>
+                            {% if forloop.counter|divisibleby:5 %}
+                        </tr>
+                        {% endif %}
+                        {% endfor%}
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+<script src="{% static 'sensor/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'sensor/js/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> -->
+<script>
+    function createcharttemp(id){
+        var gaugeOptions = {
+            chart: {
+                type: 'solidgauge'
+            },
+    
+            title: null,
+    
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor:
+                        Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc'
+                }
+            },
+    
+            exporting: {
+                enabled: false
+            },
+    
+            tooltip: {
+                enabled: false
+            },
+    
+            // the value axis
+            yAxis: {
+                stops: [
+                    [0.1, '#55BF3B'], // green
+                    [0.5, '#DDDF0D'], // yellow
+                    [0.9, '#DF5353'] // red
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                title: {
+                    y: -70
+                },
+                labels: {
+                    y: 16
+                }
+            },
+    
+            plotOptions: {
+                solidgauge: {
+                    dataLabels: {
+                        y: 5,
+                        borderWidth: 0,
+                        useHTML: true
+                    }
+                }
+            }
+        };
+    
+        // The speed gauge
+        var chartSpeed = Highcharts.chart('container-speed-'+id.toString(), Highcharts.merge(gaugeOptions, {
+            yAxis: {
+                min: 0,
+                max: 100,
+                title: {
+                    text: 'Temperature'
+                }
+            },
+    
+            credits: {
+                enabled: false
+            },
+    
+            series: [{
+                name: 'Temperature',
+                data: [0],
+                dataLabels: {
+                    format:
+                        '<div style="text-align:center">' +
+                        '<span style="font-size:25px">{y}</span><br/>' +
+                        '<span style="font-size:12px;opacity:0.4">°C</span>' +
+                        '</div>'
+                },
+                tooltip: {
+                    valueSuffix: '°C'
+                }
+            }]
+    
+        }));
+
+        return chartSpeed
+    }
+     
+    function createcharthumidity(id){
+        var gaugeOptions = {
+            chart: {
+                type: 'solidgauge'
+            },
+    
+            title: null,
+    
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor:
+                        Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc'
+                }
+            },
+    
+            exporting: {
+                enabled: false
+            },
+    
+            tooltip: {
+                enabled: false
+            },
+    
+            // the value axis
+            yAxis: {
+                stops: [
+                    [0.1, '#55BF3B'], // green
+                    [0.5, '#DDDF0D'], // yellow
+                    [0.9, '#DF5353'] // red
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                title: {
+                    y: -70
+                },
+                labels: {
+                    y: 16
+                }
+            },
+    
+            plotOptions: {
+                solidgauge: {
+                    dataLabels: {
+                        y: 5,
+                        borderWidth: 0,
+                        useHTML: true
+                    }
+                }
+            }
+        };
+    
+        var chartRpm = Highcharts.chart('container-rpm-'+id.toString(), Highcharts.merge(gaugeOptions, {
+            yAxis: {
+                min: 0,
+                max: 100,
+                title: {
+                    text: 'Humidity'
+                }
+            },
+    
+            series: [{
+                name: 'Humidity',
+                data: [0],
+                dataLabels: {
+                    format:
+                        '<div style="text-align:center">' +
+                        '<span style="font-size:25px">{y:.1f}</span><br/>' +
+                        '<span style="font-size:12px;opacity:0.4">' + '[%]RH' +
+                        '</span>' +
+                        '</div>'
+                },
+                tooltip: {
+                    valueSuffix: '[%]RH'
+                }
+            }]
+    
+        }));
+        return chartRpm
+    }
+
+    function createchartdistance(id){
+        var gaugeOptions = {
+            chart: {
+                type: 'solidgauge'
+            },
+    
+            title: null,
+    
+            pane: {
+                center: ['50%', '85%'],
+                size: '140%',
+                startAngle: -90,
+                endAngle: 90,
+                background: {
+                    backgroundColor:
+                        Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                    innerRadius: '60%',
+                    outerRadius: '100%',
+                    shape: 'arc'
+                }
+            },
+    
+            exporting: {
+                enabled: false
+            },
+    
+            tooltip: {
+                enabled: false
+            },
+    
+            // the value axis
+            yAxis: {
+                stops: [
+                    [0.1, '#55BF3B'], // green
+                    [0.5, '#DDDF0D'], // yellow
+                    [0.9, '#DF5353'] // red
+                ],
+                lineWidth: 0,
+                tickWidth: 0,
+                minorTickInterval: null,
+                tickAmount: 2,
+                title: {
+                    y: -70
+                },
+                labels: {
+                    y: 16
+                }
+            },
+    
+            plotOptions: {
+                solidgauge: {
+                    dataLabels: {
+                        y: 5,
+                        borderWidth: 0,
+                        useHTML: true
+                    }
+                }
+            }
+        };
+    
+        var chartDist = Highcharts.chart('container-dist-'+id.toString(), Highcharts.merge(gaugeOptions, {
+            yAxis: {
+                min: 0,
+                max: 100,
+                title: {
+                    text: 'Height'
+                }
+            },
+    
+            series: [{
+                name: 'Height',
+                data: [0],
+                dataLabels: {
+                    format:
+                        '<div style="text-align:center">' +
+                        '<span style="font-size:25px">{y:.1f}</span><br/>' +
+                        '<span style="font-size:12px;opacity:0.4">' + 'M' +
+                        '</span>' +
+                        '</div>'
+                },
+                tooltip: {
+                    valueSuffix: 'M'
+                }
+            }]
+    
+        }));
+        return chartDist
+    }
+    
+    setInterval(function () {
+        var point,
+            newVal,
+            inc;
+
+        let headersList = {};
+        fetch(
+            "/api/dryer/{{dryer_id}}",
+            {
+                method: "GET",
+                headers: headersList,
+            }
+        )
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                for(var i in data){
+
+                    if (createcharttemp(data[i].sensor_id)) {
+                        point = createcharttemp(data[i].sensor_id).series[0].points[0];
+                        point.update(data[i].temperature);
+                    }
+                        
+                    if (createcharthumidity(data[i].sensor_id)) {
+                        point = createcharthumidity(data[i].sensor_id).series[0].points[0];
+                        point.update(data[i].humidity);
+                    }
+
+                    if (createchartdistance(data[i].sensor_id)) {
+                        point = createchartdistance(data[i].sensor_id).series[0].points[0];
+                        point.update(data[i].distance);
+                    }
+                }                    
+            });
+    }, 10000);
+</script>
+{% endblock %}

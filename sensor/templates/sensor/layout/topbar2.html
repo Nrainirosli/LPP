@@ -1,0 +1,230 @@
+<!-- Topbar -->
+<style type="text/css">
+    .big{
+        transform: scale(0.9) !important;
+        right:-.15rem !important;
+        margin-top:-0.7rem !important; 
+    }
+    #sidebar72:hover {
+        background: #d8ac05;
+    }
+</style>
+
+<nav class="navbar navbar-expand navbar-light yellowish topbar static-top shadow" style="z-index: 1001;">
+    <!-- Sidebar Toggle (Topbar) -->
+    <button onclick="smallclose()" id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+    <button class="btn btn-link rounded-circle mr-3 text-gray-700" onclick="closenav()" id="sidebar72">
+        <i class="fa fa-bars"></i>
+    </button>
+    {% load static %}
+    <!-- <img src="{% static 'appstreetlight/icon/logo.png' %}" style="width: 9em; height: 2.5em; padding-right: 10px;"> -->
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+        <!-- Nav Item - Alert -->
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <!-- <i class="fas fa-bell fa-fw"></i> -->
+                <img src="{% static 'appstreetlight/img/icon/bell.png' %}" width="30px" height="30px">
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter big" id="alarm"></span>
+            </a>
+            <!-- Dropdown - Alerts -->
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header d-blue" style="border:1px solid #293248">
+                    Alerts Center
+                </h6>
+                <div class="dropdown-item small" href="#">Feeder Alarm</div>
+                <!-- <a class="dropdown-item d-flex align-items-center" href="#"> -->
+                    <div>
+                        <table id="tableNoti" class="ml-3" style="font-size: 12px;">
+                            <tbody>
+
+                            </tbody>                
+                        </table>
+                    </div>
+                <!-- </a> -->
+                <a class="dropdown-item text-center small text-gray-500" href="#" style="border-top: 1px solid #e3e6f0;">Show more</a>
+                <div class="dropdown-item small" href="#">Street light Alarm</div>
+                 <div>
+                    <table id="tableNoti2" style="font-size: 12px;margin-top: 0px !important;">
+                        <tbody>
+
+                        </tbody>                
+                    </table>
+                </div>
+                {% if request.get_full_path == "/sYE8kSrGbwM%3D/index" %}
+                <a class="dropdown-item text-center small text-gray-500" href="/sYE8kSrGbwM=/map">Show more</a>
+                {% else %}
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show more</a>
+                {% endif %}
+            </div>
+        </li>
+        <!-- Nav Item - User Information -->
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ profile.username }}</span>
+                <img src="{% static 'appstreetlight/img/icon/user3.png' %}" width="30px" height="30px">
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+
+                <a class="dropdown-item" href="/menu">
+                    <i class="fas fa-grip-horizontal fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Main Menu
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+
+</nav>
+
+<script>
+    function closenav(){
+        var x = document.getElementById("accordionSidebar");
+        console.log(x.style.width)
+        if(x.style.width === ""){
+            document.getElementById("accordionSidebar").style='width:0 !important;transition:.4s';
+            document.getElementById("sbrand").style='display: none !important';
+            document.getElementById("linav").style='display: none !important';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: none !important';
+            }
+            document.getElementById("group").style='display: none !important';
+            document.getElementById("dim").style='display: none !important';
+            document.getElementById("location").style='display: none !important';
+            document.getElementById("datatable").style='display: none !important';
+            document.getElementById("user").style='display: none !important';
+            document.getElementById("feeder").style='display: none !important';
+            document.getElementById("device").style='display: none !important';
+            try {
+                document.getElementById("events").style='display: none !important';
+                document.getElementById("modbusconfig").style.display='none';
+            } catch (error) {
+                
+            }
+            try { 
+                document.getElementById("home").style='display: none !important';
+                document.getElementById("energy").style='display: none !important';
+                document.getElementById("license").style='display: none !important';
+            } catch (error) {}
+
+            document.getElementById("settings").style.display='none';
+        }
+        else if(x.style.width === "0px"){
+            document.getElementById("accordionSidebar").style='width: !important;transition:.4s';
+            document.getElementById("sbrand").style='display :  !important';
+            document.getElementById("linav").style='display: !important';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: !important';
+            }
+            document.getElementById("group").style='display: !important';
+            document.getElementById("dim").style='display: !important';
+            document.getElementById("location").style='display: !important';
+            document.getElementById("datatable").style='display: !important';
+            document.getElementById("user").style='display: !important';
+            document.getElementById("feeder").style='display: !important';
+            document.getElementById("device").style='display: !important';
+            try {
+                document.getElementById("events").style='display: !important';
+                document.getElementById("modbusconfig").style.display='block';
+            } catch (error) {
+                
+            }
+            try { 
+                document.getElementById("home").style='display: !important';
+                document.getElementById("energy").style='display: !important';
+                document.getElementById("license").style='display: !important';
+            }  catch (error) {}
+            document.getElementById("settings").style.display='block';
+        }
+    }
+
+    function smallclose(){
+        var v = $(".sidebar").width();
+        // alert(v);
+        if(v == 104){
+            // alert('104');
+            document.getElementById('accordionSidebar').style='width: 0!important;transition:.4s';
+            document.getElementById("sbrand").style='display: none !important';
+            document.getElementById("linav").style='display: none !important';
+            document.getElementById("group").style='display: none !important';
+            document.getElementById("dim").style='display: none !important';
+            document.getElementById("location").style='display: none !important';
+            document.getElementById("datatable").style='display: none !important';
+            document.getElementById("user").style='display: none !important';
+            document.getElementById("feeder").style='display: none !important';
+            document.getElementById("device").style='display: none !important';
+            try {
+                document.getElementById("events").style='display: none !important';
+                document.getElementById("modbusconfig").style.display='none';
+            } catch (error) {}
+            try { 
+                document.getElementById("home").style='display: none !important';
+                document.getElementById("energy").style='display: none !important';
+                document.getElementById("license").style='display: none !important';
+            } catch (error) {}
+
+            document.getElementById("settings").style.display='none';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: none !important';
+            }
+            document.getElementById("navigation").style.display=' none !important';
+        }
+        else{
+            // alert('0');
+            document.getElementById('accordionSidebar').style='width: 6.5rem!important;overflow:initial;transition:.4s';
+            document.getElementById("sbrand").style='display:flex !important';
+            document.getElementById("linav").style='display:block !important';
+            document.getElementById("group").style='display:block !important';
+            document.getElementById("dim").style='display:block !important';
+            document.getElementById("location").style='display:block !important';
+            document.getElementById("datatable").style='display:block !important';
+            document.getElementById("user").style='display:block !important';
+            document.getElementById("feeder").style='display:block !important';
+            document.getElementById("device").style='display:block !important';
+            try {
+                document.getElementById("events").style='display:block !important';
+                document.getElementById("modbusconfig").style.display='block';
+            } catch (error) {}
+            try { 
+                document.getElementById("home").style='display: block !important';
+                document.getElementById("energy").style='display: block !important';
+                document.getElementById("license").style='display: block !important';
+            } catch (error) {}
+            document.getElementById("settings").style.display='block';
+            if(document.getElementById("linav2") != null){
+                document.getElementById("linav2").style='display: block !important';
+            }
+            document.getElementById("navigation").style.display='block';
+        }
+    }
+
+</script>
+<style>
+    /*@media (max-width: 767px){
+        #sidebar72{
+            display:none;
+        }
+    }*/
+
+    /* For mobile phones: */
+    @media only screen and (max-width: 767px) {
+        #sidebar72, #sbrand,#linav,#group,#dim,#location,#datatable,#user,#feeder,#device,#events,#gateway,#settings,#home,#linav2,#navigation,#modbusconfig,#monitor,#report,#energy,#license,#alarm,#organizationconfig{
+            display:none;
+        }
+        #accordionSidebar{
+            width: 0 ;
+        }
+    }
+</style>

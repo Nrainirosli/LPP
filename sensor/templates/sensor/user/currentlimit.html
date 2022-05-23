@@ -1,0 +1,164 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Sensor{% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div id="wrapper">
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid h-100 pt-4 white">
+                <div class="row ml-2 pl-0 mb-4">
+                    <div class="col-lg-12 pl-0">
+                        <div class="card-body shadow mr-2 mb-4">
+                            <h2 class="ml-2 text-black">Current Elevator Limit</h2>                  
+                            <div class="row">
+                              <div class="col-lg-9 col-xl-6"></div>
+                            </div>
+                            <table class="table" style="text-align:center">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Elevator</th>
+                                  <th scope="col">Upper limit</th>
+                                  <th scope="col">Current upper limit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Elevator 1</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper1" placeholder="100" >
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 2</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper2" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 3</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper3" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 4</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper4" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 5</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper5" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 6</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper6" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 7</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper7" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 8</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper8" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 9</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper9" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 10</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper10" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 11</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper11" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 12</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper12" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 13</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper13" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-lg-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Elevator 14</td>
+                                  <td>
+                                      <input type="text" class="form-control" id="upper14" placeholder="100">
+                                  </td>
+                                  <td>
+                                      <label class="col-xs-2 col-form-label text-lg-right"> 100</label>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

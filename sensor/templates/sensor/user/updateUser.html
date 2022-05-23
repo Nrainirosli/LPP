@@ -1,0 +1,189 @@
+{% extends 'sensor/index.html' %}
+{% block title %}User{% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid fluid py-4 darker-nw h-100">
+
+            <!-- Page Heading -->
+            <h4 class="h4 mb-4 ml-3 text-black">User Settings</h4>
+            <div class="col-xl-12 col-lg-7">
+                <div class="card-body d-blue rounded card-cus">
+                    <h4 class="pb-4 text-black"><i class="fas fa-user pr-3"></i>Update user</h4>
+                    <div class="col-lg-12">
+                        <form method="post" action="/updatingUser">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" required class="form-control" name="uname" id="uname"
+                                       value="{{ x.username }}" readonly="true">
+                                <input type="text" required class="form-control" name="userid" id="userid"
+                                       value="{{ x.id }}" hidden>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" required class="form-control" name="email" id="email"
+                                       value="{{ x.email }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Level</label>
+                                <select class="form-control col-lg-10" required name="lvl" id="lvl">
+                                    {% for r in roles %}
+                                    <option value="{{ r.id }}">{{ r.name }}</option>
+                                    {% endfor %}
+                                  </select>
+                            </div>
+                            <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+                            <span style="float: right;"><a href="#" data-toggle="modal"
+                                                           data-target="#modal-{{ x.id }}">Reset password</a></span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<div class="modal fades" id="modal-{{x.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5><b><i class="fas fa-lock pr-3"></i>Change user password</b></h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/sYE8kSrGbwM=/resetpassword/{{ x.id }}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" required class="form-control" name="npswd" minlength="8">
+                    </div>
+                    <div class="form-group pb-3">
+                        <label>Confirm Password</label>
+                        <input type="password" required class="form-control" name="cpswd" minlength="8">
+                    </div>
+                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<div id="snackbar">{{ message|safe }}</div>
+<script type="text/javascript">
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        // setTimeout(function(){ window.location.href = '/'; },4000);
+
+
+</script>
+{% elif message.tags == 'error'%}
+<div id="snackbar">{{ message|safe }}</div>
+<script type="text/javascript">
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tbluser').DataTable({
+            "paging":   true,
+            // "ordering": true,
+            "order": [[ 0, "desc" ]],
+            "info":     false,
+            // "searching": false,
+            "pageLength": 10,
+            "language": {
+                "paginate": {
+                    "previous": "<i class='fa fa-angle-left' style='padding:3px'></i>",
+                    "next": "<i class='fa fa-angle-right' style='padding:3px'></i>"
+                }
+            },
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
+            responsive: true
+        });
+        $('#tbluser_filter').css("visibility","hidden");
+    });
+
+$(document).ready(function() {
+    $("#show_hide_password a").on('click', function(event) {
+        event.preventDefault();
+        if($('#show_hide_password input').attr("type") == "text"){
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass( "fa-eye-slash" );
+            $('#show_hide_password i').removeClass( "fa-eye" );
+        }else if($('#show_hide_password input').attr("type") == "password"){
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass( "fa-eye-slash" );
+            $('#show_hide_password i').addClass( "fa-eye" );
+        }
+    });
+});
+
+
+
+</script>
+<script type="text/javascript">
+    function isNumber(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+      }
+      return true;
+  }
+
+
+</script>
+{% endblock %}
+
+

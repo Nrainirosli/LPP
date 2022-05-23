@@ -1,0 +1,112 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Sensor{% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div id="wrapper">
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid h-100 pt-4 white">
+                <div class="row ml-2 pl-0 mb-4">
+                    <div class="col-lg-12 pl-0">
+                        <div class="card-body shadow mr-2 mb-4">
+                          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                              <tr>
+                                <th scope="col">Dryer</th>
+                                <th scope="col">Button</th>
+                                <!-- <th scope="col">status</th> -->
+                              </tr>
+                            </thead>
+                            {% for x in dryer %}
+                                <tr>
+                                    <td>{{ x.name }}</td>
+                                    <td><input class="btn btn-danger" onclick="ctl_dryer(`{{x.name}}`)" value="{% if x.flag == 0 %} OFF {% else %} ON {% endif %}" id="btn_status_{{ x.name }}"></td>
+                                    <!-- <td></td> -->
+                                </tr>
+                            {% endfor %}
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  setInterval(function(){
+    fetch(
+    	"/api/dryer_status",
+    	{
+    		method: "GET",
+    		headers: {},
+    	}
+    )
+    	.then(function (response) {
+    		return response.json();
+    	})
+    	.then(function (data) {
+        for(var i in data){
+          document.getElementById("btn_status_"+data[i].Dryer).value = data[i].Status;
+        }
+    	});
+  },5000)
+
+  function ctl_dryer(name){
+    // var btn_status = document.getElementById("btn_status_"+name).value
+    // if (btn_status == "OFF"){
+    //   document.getElementById("btn_status_"+name).value = "ON"
+    //   document.getElementById("btn_status_"+name).className = "btn"
+    //   document.getElementById("btn_status_"+name).classList.add("btn-success")
+    // }
+    // else{
+    //   document.getElementById("btn_status_"+name).value = "OFF"
+    //   document.getElementById("btn_status_"+name).className = "btn"
+    //   document.getElementById("btn_status_"+name).classList.add("btn-danger")
+    // }
+    // $.ajax({
+    //   beforeSend: function (xhr, settings) {
+    //     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    //       xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    //     }
+    //   },
+    //   async: false,
+    //   global: false,
+    //   url: '/submitweight',
+    //   type: 'POST',
+    //   data: ({dryer_id:dryerid, data1:data1, data2:data2, weight:avg_weight, distance1:d1, distance2: d2}),
+    //   success: function (data) {
+    //     console.log(data);
+    //     window.location.reload()
+    //   }
+    // });
+  }
+
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      } 
+      return cookieValue;
+  }
+  var csrftoken = getCookie("csrftoken");
+
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+  }
+</script>
+{% endblock %}

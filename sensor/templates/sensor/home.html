@@ -1,0 +1,274 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Dryer{% endblock %}
+{% block content %}
+<style>
+label {
+display: flex;
+align-items: center;
+}
+
+span::after {
+  padding-left: 5px;
+}
+
+input:invalid + span::after {
+  content: '✖';
+}
+
+input:valid+span::after {
+  content: '✓';
+}
+
+</style>
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Topbar -->
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<div class="container-fluid">
+    
+
+    <!-- Content Row -->
+    <div class="row mt-4">
+        <!-- Area Chart -->
+        <div class="col-lg-12">
+            <div class="card shadow mb-4" style="background: 313131;">
+                <div class="card-header py-0">
+                    <h1><class= text-center mt-2 text-white style="font-size: 20px;" >Dryer History</h1> 
+                </div>
+                <div class = "card-body">
+                    <form class="form-horizontal" method="POST" action="/submitsampling">
+                        {% csrf_token %}   
+                        <div class="form-group">
+                            <h4 class=" text-black">
+                                <div class=" mt-4 text-black" style="font-size: 15px;">Select Dryer</div>
+                                <span style="cursor: pointer; float: right; font-size: 1.5em;"></span>
+                            </h4>
+                                <select class="form-control" required name="dryer_id" id="dryer_id" style="box-sizing:inherit;">
+                                    <option><div class=" mt-4 text-black" style="font-size: 15px;" data-tag='Select'></div>
+                                    </option>
+                                    {% for d in dryer %}
+                                    <!-- {{k.product_no}} -->
+                                    <option value="{{ d.dryer_id }}" >{{ d.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            <h4 class=" text-black">
+                                <div class=" mt-4 text-black" style="font-size: 15px;">Select Batch</div>
+                                <span style="cursor: pointer; float: right; font-size: 1.5em;"></span>
+                            </h4>
+                                <select class="form-control" required name="dryer_id" id="dryer_id" style="box-sizing:inherit;">
+                                    <option><div class=" mt-4 text-black" style="font-size: 15px;" data-tag='Select'></div>
+                                    </option>
+                                    {% for d in dryer %}
+                                    <!-- {{k.product_no}} -->
+                                    <option value="{{ d.dryer_id }}" >{{ d.name }}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                
+                        <!-- Submit Button-->
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" id="submit">SUBMIT</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>  
+
+                <!-- <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Date</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Sensor Type</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Humidity</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Temperature</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Distance</th>
+                                </tr>
+                            </thead>
+                            {% for x in sensor %}
+                                <tr>
+                                    <td>{{ x.datecreated }}</td>
+                                    <td>{{ x.name }}</td>
+                                    <td>{% if x.sensor_type == 1 %}
+                                        <div id="dryer{{x.name}}"></div>
+                                        {% endif %}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                            
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let headersList = {};
+            fetch(
+                "/api/gethistory/{{dryer_id}}",
+                {
+                    method: "GET",
+                    headers: headersList,
+                }
+            )
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++){
+                    console.log(data)
+                    var status = data[i].Status;
+                    document.getElementById("dryer_"+data[i].Dryer).innerHTML = data[i].Status;
+                }
+            });
+
+    var daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31],
+    today = new Date(),
+    // default targetDate is christmas
+    targetDate = new Date(today.getFullYear(), 11, 25); 
+
+    setDate(targetDate);
+    setYears(5) // set the next five years in dropdown
+
+    $("#select-month").change(function() {
+    var monthIndex = $("#select-month").val();
+    setDays(monthIndex);
+    });
+
+    function setDate(date) {
+    setDays(date.getMonth());
+    $("#select-day").val(date.getDate());
+    $("#select-month").val(date.getMonth());
+    $("#select-year").val(date.getFullYear()); 
+    }
+
+    // make sure the number of days correspond with the selected month
+    function setDays(monthIndex) {
+    var optionCount = $('#select-day option').length,
+        daysCount = daysInMonth[monthIndex];
+    
+    if (optionCount < daysCount) {
+        for (var i = optionCount; i < daysCount; i++) {
+        $('#select-day')
+            .append($("<option></option>")
+            .attr("value", i + 1)
+            .text(i + 1)); 
+        }
+    }
+    else {
+        for (var i = daysCount; i < optionCount; i++) {
+        var optionItem = '#select-day option[value=' + (i+1) + ']';
+        $(optionItem).remove();
+        } 
+    } 
+    }
+
+    function setYears(val) {
+    var year = today.getFullYear();
+    for (var i = 0; i < val; i++) {
+        $('#select-year')
+            .append($("<option></option>")
+            .attr("value", year + i)
+            .text(year + i)); 
+        }
+    }
+
+    function doprocess() {
+        var typegraph = document.getElementById('typegraph').value;
+        var deviceeui = document.getElementById('deviceeui').value;
+        var startdate = document.getElementById('startdate').value;
+        var enddate = document.getElementById('enddate').value;
+        var a = startdate.split('T');
+        var b = enddate.split('T');
+        if (a[0] == '' || b[0] == '') {
+            var z = 'end date!';
+            if (a[0] == '') z = 'start date!';
+            alert('Please select '+z);
+            return
+        };
+        a = a[0] + ' 00:00:00';
+        b = b[0] + ' 23:59:59';
+
+        // console.log(typegraph,deviceeui,a,b);
+        $.ajax({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            },
+            type: 'POST',
+            url: '/sYE8kSrGbwM=/getrawdatasl',
+            data: ({ id: deviceeui, start: a, end: b, typedata: typegraph }),
+            success: function (data) {
+                console.log(data);
+                var divbawah = document.getElementById("divbawah");
+                var container = document.createElement("div"); 
+                var html = '';
+                divbawah.innerHTML = html;
+                if (data == 'More than 5 month') {
+                    alert('Cannot select date more than five month');
+                    return;
+                }
+                if (data == 'End date lower than start') {
+                    alert(data);
+                    return;
+                }
+                if (data.length > 0) {
+                    // console.log(data.length);
+
+                    for(i=0;i<data.length;i++) {
+                        var j = data[i];
+                        html += '\
+                            <div class="p-10" id="div_group_'+i+'">\
+                                \<div class="row">\
+                                    <span>'+JSON.stringify(j)+'</span\
+                                    </div>\
+                                </div>\
+                            </div>';
+                    }
+                } else {
+
+                }
+                divbawah.innerHTML = html;
+            }
+        });
+
+
+    }
+
+</script>
+
+{% endblock %}

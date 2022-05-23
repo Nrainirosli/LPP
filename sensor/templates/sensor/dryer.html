@@ -1,0 +1,86 @@
+{% extends 'sensor/index.html' %}
+{% block title %}Dryer{% endblock %}
+{% block content %}
+
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'sensor/layout/navbar.html' %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Topbar -->
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<div class="container-fluid">
+    <div class="ml-4 mt-2 text-white">
+        <span onclick="trans('en')" style="cursor: pointer;">EN |</span>
+        <span onclick="trans('mal')" style="cursor: pointer;">MY |</span>
+        <span onclick="trans('jap')" style="cursor: pointer;">JP</span>
+    </div>
+    
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="display: inline !important;">
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <!-- Area Chart -->
+        <div class="col-lg-12">
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4" style="background: 313131;">
+                <div class="card-header py-1">
+                    <h1><class= text-center mt-2 text-white style="font-size: 20px;" >Dryer Info</h1>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Dryer ID</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Dryer name</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Date Created</th>
+                                    <th><div><class= "text-center mt-4 text-white" style="font-size: 20px;" ></div>Site ID</th>
+                                </tr>
+                            </thead>
+                            {% for x in dryer %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="/history/{{ x.dryer_id }}">{{x.name}}</a></td>
+                                    <td>{{ x.datecreated }}</td>
+                                    <td>{{ x.site_id }}</td>
+                                </tr>
+
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

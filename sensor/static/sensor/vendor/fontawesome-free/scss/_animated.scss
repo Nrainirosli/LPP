@@ -1,0 +1,36 @@
+// Animated Icons
+// --------------------------
+
+.#{$fa-css-prefix}-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+.#{$fa-css-prefix}-pulse {
+  animation: fa-spin 1s infinite steps(8);
+}
+
+@keyframes fa-spin {
+  0% {
+<<<<<<< HEAD
+=======
+    // Animated Icons
+// --------------------------
+
+.#{$fa-css-prefix}-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+.#{$fa-css-prefix}-pulse {
+  animation: fa-spin 1s infinite steps(8);
+}
+
+@keyframes fa-spin {
+  0% {
+>>>>>>> 21d539137225cbab45148f8cc3548acb295fd524
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
